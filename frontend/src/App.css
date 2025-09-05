@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Story+Script&display=swap');
+@import "tailwindcss";
+      
+@theme {
+  --color-base: #DBC2A6;
+  --color-accent: #99744A;
+  --color-sage: #414A37;
+  --font-instrument: 'Instrument Serif', sans-serif;
+  --font-story: 'Story Script', sans-serif;
+ --animate-slideFadeDown: slideFadeDown 1s ease-in-out; 
+@keyframes slideFadeDown {
+    0% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  --animate-slideFadeUp: slideFadeUp 1s ease-in-out;
+@keyframes slideFadeUp {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  --animate-slideFadeLeft: slideFadeLeft 2s ease-in-out;
+@keyframes slideFadeLeft {    
+    0% {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  --animate-slideFadeRight: slideFadeRight 2s ease-in-out;
+@keyframes slideFadeRight {    
+    0% {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+}
