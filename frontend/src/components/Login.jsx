@@ -3,12 +3,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Eye, EyeOff } from "lucide-react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+
 
 const LoginForm = () => {
   const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [showPassword, setShowPassword] = useState(false);
-const navigate = useNavigate();
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -32,7 +32,7 @@ const navigate = useNavigate();
 if (response.ok) {
   const data = await response.json();
   Cookies.set("token", data.token, { expires: 1 });
-  navigate("/");
+window.location.href = "/"; 
 } else {
   const errorData = await response.json();
   alert(`Login failed: ${errorData.error}`);

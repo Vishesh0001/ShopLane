@@ -1,9 +1,9 @@
 import Cookies from 'js-cookie'
 import { useState,useEffect } from 'react';
-import { useNavigate,Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 const Navbar = () => {
   const [token, setToken] = useState(false);
-const navigate = useNavigate()
+
   useEffect(() => {
     const cookie = Cookies.get("token"); // use your cookie name here
     console.log("cookie:", cookie);
@@ -17,7 +17,7 @@ const navigate = useNavigate()
     }
     Cookies.remove("token")
     setToken(false)
-navigate('/login')
+window.location.href = "/login"; 
 
   }
   return (

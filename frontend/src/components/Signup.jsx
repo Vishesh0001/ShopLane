@@ -3,9 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { Eye, EyeOff } from "lucide-react";
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+
 const SignupForm = () => {
-  const navigate = useNavigate(); 
+
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -46,7 +46,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
         console.log('Signup successful:', data);
         Cookies.set('token',data.token,{ expires: 1, path: '/'  }); // Expires in 1 day
         alert('Signup successful!');
-        navigate('/'); // Redirect to dashboard
+    window.location.href = "/"; 
       }else{
         const errorData = await response.json();
         alert(`Signup failed: ${errorData.error}`);
