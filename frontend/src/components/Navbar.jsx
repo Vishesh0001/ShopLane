@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie'
 import { useState,useEffect } from 'react';
-import {Link} from 'react-router-dom';  
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link } from 'react-router-dom';
 const Navbar = () => {
   const [token, setToken] = useState(false);
 const navigate = useNavigate()
@@ -28,10 +27,10 @@ navigate('/login')
 
   {/* Center Links */}
   <div className="hidden md:flex space-x-8 absolute left-1/2 transform -translate-x-1/2">
-    <a href="/" className="hover:underline">Home</a>
-    <a href="/create-store" className="hover:underline">create store</a>
-    <a href="/dashboard" className="hover:underline">Dashboard</a>
-    < a href="/allstores" className="hover:underline">All Stores</a>
+     <Link to="/" className="hover:underline">Home</Link>
+  <Link to="/create-store" className="hover:underline">Create Store</Link>
+  <Link to="/dashboard" className="hover:underline">Dashboard</Link>
+  <Link to="/allstores" className="hover:underline">All Stores</Link>
   </div>
 
   {/* Right Side Button */}
