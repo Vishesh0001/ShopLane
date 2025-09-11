@@ -5,10 +5,13 @@ import { Eye, EyeOff } from "lucide-react";
 import Cookies from "js-cookie";
 
 const SignupForm = () => {
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -30,40 +33,47 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
         .oneOf([Yup.ref("password"), null], "Passwords must match")
         .required("Confirm Password is required"),
     }),
-    onSubmit: async(values) => {
-      try{
-      const response = await fetch(`${API_BASE_URL}/signup`,{
-        method:'POST',
-        headers:{ 'Content-Type':'application/json'},
-        body:JSON.stringify({
-          fullname:values.fullName,
-          email:values.email,
-          password:values.password
-        })
-      })
-      if(response.ok){
-        const data = await response.json();
-        console.log('Signup successful:', data);
-        Cookies.set('token',data.token,{ expires: 1, path: '/'  }); // Expires in 1 day
-        alert('Signup successful!');
-    window.location.href = "/"; 
-      }else{
-        const errorData = await response.json();
-        alert(`Signup failed: ${errorData.error}`);
-      }
-    }catch(error)  { 
-          console.error('Error during signup:', error);
-          alert('An error occurred during signup. Please try again later.');
+    onSubmit: async (values) => {
+      setLoading(true);
+      setError("");
+      try {
+        const response = await fetch(`${API_BASE_URL}/signup`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fullname: values.fullName,
+            email: values.email,
+            password: values.password,
+          }),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Signup successful:", data);
+          Cookies.set("token", data.token, { expires: 1, path: "/" }); // Expires in 1 day
+          alert("Signup successful!");
+          window.location.href = "/";
+        } else {
+          const errorData = await response.json();
+          setError(errorData.error || "Signup failed");
         }
-    
-    
-    }
+      } catch (error) {
+        console.error("Error during signup:", error);
+        setError("An error occurred during signup. Please try again later.");
+      } finally {
+        setLoading(false);
+      }
+    },
   });
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-base text-accent">
       <div className="w-full max-w-md bg-sage p-8 rounded-2xl shadow-lg">
         <h1 className="text-3xl font-bold text-center mb-6">Sign Up</h1>
+
+        {error && (
+          <p className="text-red-500 text-center mb-4 text-sm">{error}</p>
+        )}
 
         <form onSubmit={formik.handleSubmit} className="space-y-4">
           {/* Full Name */}
@@ -153,15 +163,9 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
             <button
               type="button"
               className="absolute right-3 top-9 text-gray-600"
-              onClick={() =>
-                setShowConfirmPassword(!showConfirmPassword)
-              }
+              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
             >
-              {showConfirmPassword ? (
-                <EyeOff size={20} />
-              ) : (
-                <Eye size={20} />
-              )}
+              {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
             </button>
             {formik.touched.confirmPassword &&
               formik.errors.confirmPassword && (
@@ -174,9 +178,10 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
           {/* Signup Button */}
           <button
             type="submit"
-            className="w-full bg-emerald-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-emerald-600 transition"
+            disabled={loading}
+            className="w-full bg-emerald-500 text-white font-semibold py-2 px-4 rounded-lg hover:bg-emerald-600 transition disabled:opacity-50"
           >
-            Sign Up
+            {loading ? "Signing Up..." : "Sign Up"}
           </button>
         </form>
       </div>
